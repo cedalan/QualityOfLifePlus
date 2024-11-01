@@ -26,6 +26,9 @@ public class BlbCommandHandler implements CommandExecutor {
         String subCommand = args[0].toLowerCase();
 
         switch (subCommand) {
+            case "list":
+                showBlbCommandListToPlayer(sender, args);
+                break;
             case "leaderboard":
                 showLeaderboardToPlayer(sender, args);
                 break;
@@ -48,6 +51,15 @@ public class BlbCommandHandler implements CommandExecutor {
         }
 
         return true;
+    }
+
+    private void showBlbCommandListToPlayer(CommandSender sender, String[] args) {
+        //TODO: 
+        /*
+         * /blb list
+         * 
+         * Show a list of all commands to player
+         */
     }
     
     private void showLeaderboardToPlayer(CommandSender sender, String[] args) {
