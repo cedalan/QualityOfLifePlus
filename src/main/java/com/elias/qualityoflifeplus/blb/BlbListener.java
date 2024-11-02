@@ -10,11 +10,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import com.elias.qualityoflifeplus.QualityOfLifePlusPlugin;
+import com.elias.qualityoflifeplus.utils.ToolUtils;
 
 public class BlbListener implements Listener {
     
     private final QualityOfLifePlusPlugin plugin;
-    private final Map<Player, Map<Material, Integer>> blocksBrokenWithTool = new HashMap<>();
+    private final Map<Player, Map<String, Integer>> blocksBrokenWithTool = new HashMap<>();
 
     public BlbListener(QualityOfLifePlusPlugin plugin) {
         this.plugin = plugin;
@@ -22,16 +23,26 @@ public class BlbListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        //Get player and tool
+        //Get player and tooltype
         Player player = event.getPlayer();
-        Material toolType = player.getInventory().getItemInMainHand().getType();
+        Material specificTool = player.getInventory().getItemInMainHand().getType();
+        String toolType = ToolUtils.getToolCategory(specificTool);
 
-
+        //Set up new map if not exists, then get specific map for player
         blocksBrokenWithTool.putIfAbsent(player, new HashMap<>());
-        Map<Material, Integer> toolCount = blocksBrokenWithTool.get(player);
+        Map<String, Integer> toolCount = blocksBrokenWithTool.get(player);
 
+        //Update player hasmap
         toolCount.put(toolType, toolCount.getOrDefault(toolType, 0) + 1);
-        player.sendMessage("You've broken " + toolCount.get(toolType) + " blocks with " + toolType.toString().toLowerCase() + ".");
+
+        //This is for debugging
+        player.sendMessage("You've broken " + toolCount.get(toolType) + " blocks with " + toolType.toLowerCase() + ".");
     }
+
+    public Map<Player, Map<String, Integer>> getBlocksBrokenWithToolForAllPlayers() {
+        return blocksBrokenWithTool;
+    }
+
+    
 
 }
