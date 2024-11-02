@@ -21,16 +21,16 @@ public class QualityOfLifePlusPlugin extends JavaPlugin {
             dataFolder.mkdirs();
         }
 
+        //Enable listener for block breaking part of plugin
+        BlbListener blbListener = new BlbListener(this);
+        getServer().getPluginManager().registerEvents(blbListener, this);
+
         // Initialize PlayerDataManager
         PlayerDataManager playerDataManager = new PlayerDataManager(this);
 
         //Enable listener for data saving when player logs out:
         PlayerLogoutListener playerLogoutListener = new PlayerLogoutListener(playerDataManager);
         getServer().getPluginManager().registerEvents(playerLogoutListener, this);
-
-        //Enable listener for block breaking part of plugin
-        BlbListener blbListener = new BlbListener(this);
-        getServer().getPluginManager().registerEvents(blbListener, this);
 
         //Enable command handler for all commands related to block breaking
         this.getCommand("blb").setExecutor(new BlbCommandHandler(this, blbListener));
