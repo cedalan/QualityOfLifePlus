@@ -21,7 +21,7 @@ public class BlbListener implements Listener {
     
         public BlbListener(QualityOfLifePlusPlugin plugin) {
             this.plugin = plugin;
-            this.blocksBrokenWithTool = PlayerDataManager.getAllPlayerData(plugin);
+            BlbListener.blocksBrokenWithTool = PlayerDataManager.getAllPlayerData(plugin);
         }
     
         @EventHandler
@@ -50,5 +50,5 @@ public class BlbListener implements Listener {
     public static Map<String, Integer> getBlocksBrokenWithToolForPlayer(UUID player_uuid) {
         return blocksBrokenWithTool.getOrDefault(player_uuid, new HashMap<>());
     }
-
+    
 }
