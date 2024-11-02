@@ -1,19 +1,31 @@
 package com.elias.qualityoflifeplus.blb;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import com.elias.qualityoflifeplus.QualityOfLifePlusPlugin;
+import com.elias.qualityoflifeplus.utils.PlayerDataManager;
 
 public class BlbCommandHandler implements CommandExecutor {
 
     private final QualityOfLifePlusPlugin plugin;
     private final BlbListener listener;
+    private final Map<String, String> commands = new HashMap<>();
 
     public BlbCommandHandler(QualityOfLifePlusPlugin plugin, BlbListener listener) {
         this.plugin = plugin;
         this.listener = listener;
+        this.commands.put("list", "lists all commands");
+        this.commands.put("leaderboard <specifier>", "shows leaderboarad for specified tool");
+        this.commands.put("level <specifier>", "returns player level given specifier");
+        this.commands.put("levels", "returns player levels for all specifiers");
+        this.commands.put("xp <add/remove> <amount>", "adds or removes xp according to amount");
     }
 
     @Override
@@ -60,6 +72,12 @@ public class BlbCommandHandler implements CommandExecutor {
          * 
          * Show a list of all commands to player
          */
+        StringBuilder strLine = new StringBuilder();
+
+        for (String command : commands.keySet()) {
+            strLine.append("/blb " + command + " - " + commands.get(command) + "\n");
+        }
+        sender.sendMessage(strLine.toString());
     }
     
     private void showLeaderboardToPlayer(CommandSender sender, String[] args) {
@@ -78,6 +96,15 @@ public class BlbCommandHandler implements CommandExecutor {
         /* /blb levels
          * Return all levels for the sender.
          */
+        Player player = sender.getServer().getPlayer(sender.getName());
+        UUID player_uuid = player.getUniqueId();
+        Map<String, Integer> playerData = PlayerDataManager.getAllPlayerData(plugin).get(player_uuid);
+
+        StringBuilder strLine = new StringBuilder();
+
+        for (String tool : playerData.keySet()) {
+            strLine.append(tool + ":");
+        }
     }
 
     private void showLevelToPlayer(CommandSender sender, String[] args) {
@@ -92,5 +119,6 @@ public class BlbCommandHandler implements CommandExecutor {
         /* /blb xp <+/-> <amount>
          * Adjust user experience level
          */
+        
     }
 }

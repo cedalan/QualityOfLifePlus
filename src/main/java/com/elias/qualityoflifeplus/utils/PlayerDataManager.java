@@ -81,4 +81,8 @@ public class PlayerDataManager {
             return blocksBrokenWithTool;
         }
     }
+
+    public static Integer xpToLevel() {
+        return 1;
+    }
 }
