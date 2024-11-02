@@ -20,6 +20,10 @@ public class ToolUtils {
         return material.name().endsWith("_HOE");
     }
 
+    public static boolean isSword(Material material) {
+        return material.name().endsWith("_SWORD");
+    }
+
     public static String getToolCategory(Material material) {
         if (isShovel(material)) {
             return "Shovel";
@@ -29,6 +33,8 @@ public class ToolUtils {
             return "Axe";
         } else if (isHoe(material)) {
             return "Hoe";
+        } else if (isSword(material)) {
+            return "Sword";
         } else {
             return "Other";
         }
