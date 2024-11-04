@@ -21,7 +21,6 @@ public class BlbListener implements Listener {
     
         public BlbListener(QualityOfLifePlusPlugin plugin) {
             this.plugin = plugin;
-            BlbListener.blocksBrokenWithTool = PlayerDataManager.getAllPlayerData(plugin);
         }
     
         @EventHandler
