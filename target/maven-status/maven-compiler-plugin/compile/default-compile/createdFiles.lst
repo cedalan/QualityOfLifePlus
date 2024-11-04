@@ -3,4 +3,6 @@ com/elias/qualityoflifeplus/events/PlayerLogoutListener.class
 com/elias/qualityoflifeplus/QualityOfLifePlusPlugin.class
 com/elias/qualityoflifeplus/blb/BlbListener.class
 com/elias/qualityoflifeplus/utils/PlayerDataManager.class
+com/elias/qualityoflifeplus/blb/BlbEffectHandler.class
 com/elias/qualityoflifeplus/blb/BlbCommandHandler.class
+com/elias/qualityoflifeplus/events/PlayerChangedItemInHandListener.class

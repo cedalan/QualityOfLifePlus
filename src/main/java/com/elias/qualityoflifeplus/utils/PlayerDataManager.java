@@ -82,7 +82,19 @@ public class PlayerDataManager {
         }
     }
 
-    public static Integer xpToLevel() {
-        return 1;
+    public static Integer xpToLevel(Integer experience) {
+        /*
+        // If the experience is less than 10, return level 1
+        if (experience < 10) {
+            return 1;
+        } else {
+            // Otherwise, calculate the level using the logarithm base 10 of the experience
+            return (int) Math.log10(experience);
+        }
+        */
+        if (experience == null || experience < 10) {
+            return 1;
+        }
+        return experience / 10;
     }
 }

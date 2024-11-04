@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.elias.qualityoflifeplus.blb.BlbCommandHandler;
 import com.elias.qualityoflifeplus.blb.BlbListener;
+import com.elias.qualityoflifeplus.events.PlayerChangedItemInHandListener;
 import com.elias.qualityoflifeplus.events.PlayerLogoutListener;
 import com.elias.qualityoflifeplus.utils.PlayerDataManager;
 
@@ -20,6 +21,10 @@ public class QualityOfLifePlusPlugin extends JavaPlugin {
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
         }
+
+        //Enable listener for changing items in hand
+        PlayerChangedItemInHandListener playerChangedItemInHandListener = new PlayerChangedItemInHandListener(this);
+        getServer().getPluginManager().registerEvents(playerChangedItemInHandListener, this);
 
         //Enable listener for block breaking part of plugin
         BlbListener blbListener = new BlbListener(this);
