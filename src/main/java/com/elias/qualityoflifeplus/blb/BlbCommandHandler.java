@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import com.elias.qualityoflifeplus.QualityOfLifePlusPlugin;
 import com.elias.qualityoflifeplus.utils.PlayerDataManager;
+import com.elias.qualityoflifeplus.utils.ToolUtils;
 
 public class BlbCommandHandler implements CommandExecutor {
 
@@ -98,12 +100,13 @@ public class BlbCommandHandler implements CommandExecutor {
          */
         Player player = sender.getServer().getPlayer(sender.getName());
         UUID player_uuid = player.getUniqueId();
-        Map<String, Integer> playerData = PlayerDataManager.getAllPlayerData(plugin).get(player_uuid);
+        Map<String, Integer> playerData = PlayerDataManager.getPlayerData(plugin, player);
 
         StringBuilder strLine = new StringBuilder();
 
-        for (String tool : playerData.keySet()) {
-            strLine.append(tool + ":");
+        player.sendMessage("Your stats are:");
+        for (String key : playerData.keySet()) {
+            player.sendMessage(key + " " + String.valueOf(playerData.get(key)));
         }
     }
 
@@ -112,13 +115,83 @@ public class BlbCommandHandler implements CommandExecutor {
         /* /blb level <tool>
          * Return user level for a given tool. If no tool/profession is given, tell user they neeed to specify.
          */
+        Player player = sender.getServer().getPlayer(sender.getName());
+        Map<String, Integer> playerData = PlayerDataManager.getPlayerData(plugin, player);
+
+        String toolArg = args[1];
+        char firstLetter = toolArg.charAt(0);
+        String adjustTool = Character.toUpperCase(firstLetter) + toolArg.substring(1).toLowerCase();
+
+        if (ToolUtils.isValidTool(adjustTool)) {
+            if (playerData.get(adjustTool) == null) {
+                player.sendMessage("You have no stats for " + toolArg);
+            } else {
+                player.sendMessage("Your xp with " + adjustTool + " is " + String.valueOf(playerData.get(adjustTool)));
+            }
+        } else {
+            player.sendMessage(toolArg + " is not a valid tool!");
+        }
     }
 
     private void adjustPlayerExperience(CommandSender sender, String[] args) {
         // TODO: 
-        /* /blb xp <+/-> <amount>
+        /* /blb xp <tool> <+/-> <amount> 
          * Adjust user experience level
          */
-        
+        Player player = (Player) sender;
+        if (!player.isOp()) {
+            player.sendMessage("You do not have access to that command!");
+            return;
+        } else if (args.length < 4 || args.length > 4) {
+            player.sendMessage("You need to provide ONLY 5 arguments!!");
+            return;
+        } else {
+            Map<String, Integer> playerData = PlayerDataManager.getPlayerData(plugin, player);
+            
+            String toolArg = args[1];
+            char firstLetter = toolArg.charAt(0);
+            String adjustTool = Character.toUpperCase(firstLetter) + toolArg.substring(1).toLowerCase();
+
+            if (ToolUtils.isValidTool(adjustTool)) {
+                if (args[2].equals("+")) {
+                    try {
+                        int amount = Integer.parseInt(args[3]);
+                    } catch (NumberFormatException e) {
+                        player.sendMessage("You need to provide a number...");
+                        return;
+                    }
+                    Integer amount = Integer.parseInt(args[3]);
+
+                    if (playerData.get(adjustTool) == null) {
+                        playerData.put(adjustTool, amount);
+                    } else {
+                        playerData.put(adjustTool, amount + playerData.get(adjustTool));
+                    }
+                } else if (args[2].equals("-")) {
+                    try {
+                        int amount = Integer.parseInt(args[3]);
+                    } catch (NumberFormatException e) {
+                        player.sendMessage("You need to provide a number...");
+                        return;
+                    }
+                    Integer amount = Integer.parseInt(args[3]);
+
+                    if (playerData.get(adjustTool) == null) {
+                        playerData.put(adjustTool, amount);
+                    } else {
+                        playerData.put(adjustTool, amount + playerData.get(adjustTool));
+                    }
+    
+                } else {
+                    player.sendMessage("You need to provide valid arguments! + or -.");
+                    return;
+                }
+
+                PlayerDataManager.savePlayerData(player, playerData, adjustTool);
+                player.sendMessage("Successfully adjusted experience for " + toolArg + " to " + String.valueOf(playerData.get(adjustTool)));
+            } else {
+                player.sendMessage("You need to provide a valid argument for oyur tool!");
+            }
+        }
     }
 }
