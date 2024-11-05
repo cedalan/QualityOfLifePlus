@@ -15,6 +15,6 @@ public class PlayerLogoutListener implements Listener {
 
     @EventHandler
     public void onPlayerLogout(PlayerQuitEvent event) {
-        playerDataManager.savePlayerData(event.getPlayer());
+        //playerDataManager.savePlayerData(event.getPlayer());
     }
 }

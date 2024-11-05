@@ -1,7 +1,6 @@
 package com.elias.qualityoflifeplus.blb;
 
 import java.util.Map;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -17,10 +16,18 @@ import com.elias.qualityoflifeplus.utils.ToolUtils;
 public class BlbEffectHandler {
     
     public static void updatePlayerEffect(JavaPlugin plugin, Player player, ItemStack itemInHand) {
-        Map<String, Integer> playerData = PlayerDataManager.getAllPlayerData(plugin).get(player.getUniqueId());
+        Map<String, Integer> playerData = PlayerDataManager.getPlayerData(plugin, player);
+
+        if (playerData == null) {
+            player.sendMessage("No data found for player: " + player.getName());
+            return; 
+        }
+        
         if (itemInHand == null) {
+            player.removePotionEffect(PotionEffectType.FAST_DIGGING);
             return;
         }
+
         String itemString = itemInHand.toString();
         Material itemMaterial = itemInHand.getType();
         String toolCategory = ToolUtils.getToolCategory(itemMaterial);
@@ -31,21 +38,24 @@ public class BlbEffectHandler {
         
         if (!toolCategory.equalsIgnoreCase("Other")) {
             int itemLevel = PlayerDataManager.xpToLevel(playerData.get(toolCategory)) - 1;
-            if (BlbEffectHandler.hasHasteAboveOrEqualsLevel(player, itemLevel)) {
+            Bukkit.getLogger().info(String.valueOf(itemLevel));
+            if (itemLevel < 0) {
+                player.removePotionEffect(PotionEffectType.FAST_DIGGING);
+            } else if (BlbEffectHandler.hasHasteAboveLevel(player, itemLevel)) {
                 return;
             } else {
                 player.removePotionEffect(PotionEffectType.FAST_DIGGING);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, duration, itemLevel));
             }
         } else {
-            return;
+            player.removePotionEffect(PotionEffectType.FAST_DIGGING);
         }
     }
 
-    public static boolean hasHasteAboveOrEqualsLevel(Player player, int level) {
+    public static boolean hasHasteAboveLevel(Player player, int level) {
         for (PotionEffect effect : player.getActivePotionEffects()) {
             if (effect.getType().equals(PotionEffectType.FAST_DIGGING)) {
-                if (effect.getAmplifier() >= level) {
+                if (effect.getAmplifier() > level) {
                     return true;
                 }
             }

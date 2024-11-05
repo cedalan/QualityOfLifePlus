@@ -10,38 +10,28 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.elias.qualityoflifeplus.blb.BlbListener;
-
 import org.apache.commons.io.FilenameUtils;
 
 public class PlayerDataManager {
     
-    private final JavaPlugin plugin;
-    private final File dataFolder;
-
-    public PlayerDataManager(JavaPlugin plugin) {
-        this.plugin = plugin;
-
-        this.dataFolder = new File(plugin.getDataFolder(), "data");
-        if (!dataFolder.exists()) {
-            dataFolder.mkdirs();
+    private static File dataFolder;
+    
+        public PlayerDataManager(JavaPlugin plugin) {
+    
+            PlayerDataManager.dataFolder = new File(plugin.getDataFolder(), "data");
+            if (!dataFolder.exists()) {
+                dataFolder.mkdirs();
+            }
         }
-    }
 
-    public void savePlayerData(Player player) {
+    public static void savePlayerData(Player player, Map<String, Integer> playerData, String toolType) {
         UUID player_uuid = player.getUniqueId();
         File playerFile = new File(dataFolder, player_uuid + ".yml");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(playerFile);
 
-        Map<String, Integer> playerData = BlbListener.getBlocksBrokenWithToolForPlayer(player_uuid);
-
         for (String key : playerData.keySet()) {
             Integer value = playerData.get(key);
-            Integer currentSaved = config.getInt(key, 0);
-
-            currentSaved += value;
-
-            config.set(key, currentSaved);
+            config.set(key, value);
         }
 
         try {
@@ -51,15 +41,38 @@ public class PlayerDataManager {
         }
     }
 
+    public static Map<String, Integer> getPlayerData(JavaPlugin plugin, Player player) {
+        Map<String, Integer> playerData = new HashMap<>();
+
+        File dubplicate_datafolder = new File(plugin.getDataFolder(), "data");
+        if (!dubplicate_datafolder.exists()) {
+            return playerData;
+        } else if (dubplicate_datafolder.listFiles().length == 0) {
+            return playerData;
+        } else {
+            File playerFile = new File(dataFolder, player.getUniqueId().toString() + ".yml");
+            if (!playerFile.exists()) {
+                return playerData;
+            } else {
+                YamlConfiguration config = YamlConfiguration.loadConfiguration(playerFile);
+                for (String key : config.getKeys(false)) {
+                    playerData.put(key, config.getInt(key));
+                }
+            }
+        }
+
+        return playerData;
+    }
+
     public static Map<UUID, Map<String, Integer>> getAllPlayerData(JavaPlugin plugin) {
-        Map<UUID, Map<String, Integer>> blocksBrokenWithTool = new HashMap<>();
+        Map<UUID, Map<String, Integer>> allPlayerData = new HashMap<>();
 
         File duplicate_dataFolder = new File(plugin.getDataFolder(), "data");
 
         if (!duplicate_dataFolder.exists()) {
-            return blocksBrokenWithTool;
+            return allPlayerData;
         } else if (duplicate_dataFolder.listFiles().length == 0) {
-            return blocksBrokenWithTool;
+            return allPlayerData;
         } else {
             for (File playerFile : duplicate_dataFolder.listFiles()) {
                 String player_string_uuid = FilenameUtils.removeExtension(playerFile.getName());
@@ -75,10 +88,10 @@ public class PlayerDataManager {
                 }
 
                 //Put small map in big map:)
-                blocksBrokenWithTool.put(player_uuid, currentPlayerData);
+                allPlayerData.put(player_uuid, currentPlayerData);
             }
 
-            return blocksBrokenWithTool;
+            return allPlayerData;
         }
     }
 
@@ -92,3 +105,4 @@ public class PlayerDataManager {
         }
     }
 }
+

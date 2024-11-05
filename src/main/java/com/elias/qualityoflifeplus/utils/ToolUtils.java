@@ -1,6 +1,7 @@
 package com.elias.qualityoflifeplus.utils;
 
 import org.bukkit.Material;
+import java.util.Arrays;
 
 public class ToolUtils {
 
@@ -38,5 +39,10 @@ public class ToolUtils {
         } else {
             return "Other";
         }
+    }
+
+    public static boolean isValidTool(String probableTool) {
+        String[] tools = {"Shovel", "Axe", "Pickaxe", "Hoe", "Sword"};
+        return Arrays.stream(tools).anyMatch(probableTool::equals);
     }
 }
