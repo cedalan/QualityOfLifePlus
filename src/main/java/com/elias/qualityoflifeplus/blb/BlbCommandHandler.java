@@ -1,8 +1,10 @@
 package com.elias.qualityoflifeplus.blb;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -84,13 +86,46 @@ public class BlbCommandHandler implements CommandExecutor {
     
     private void showLeaderboardToPlayer(CommandSender sender, String[] args) {
         // TODO:
-        /* /blb leaderboard
+        /* /blb leaderboard <tool> 
          * Handle if user does not specify which leaderboard (which tool that is)
          * 
          * Handle the different cases
          * 
          * Handle if leaderboard does not exist
          */
+        Player player = sender.getServer().getPlayer(sender.getName());
+
+        if (args.length < 2) {
+            player.sendMessage("You need to specify a tool.");
+            return;
+        }
+
+        String toolArg = args[1];
+        char firstLetter = toolArg.charAt(0);
+        String adjustTool = Character.toUpperCase(firstLetter) + toolArg.substring(1).toLowerCase();
+
+        if (ToolUtils.isValidTool(adjustTool)) {
+            Map<String, Integer> allToolData = PlayerDataManager.getAllToolData(plugin, adjustTool);
+
+            Map<String, Integer> sortedData = allToolData.entrySet()
+                .stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+
+            int i = 0;
+            player.sendMessage("BLB leaderboard for " + adjustTool + ":");
+            for (String key : sortedData.keySet()) {
+                i++;
+                player.sendMessage("#" + String.valueOf(i) + ": " + key + " - " + String.valueOf(sortedData.get(key)) + " blocks.");
+            }
+        } else {
+            player.sendMessage("You need to provide a correct tool label!");
+        }
     }
 
     private void showLevelsToPlayer(CommandSender sender, String[] args) {
@@ -99,10 +134,7 @@ public class BlbCommandHandler implements CommandExecutor {
          * Return all levels for the sender.
          */
         Player player = sender.getServer().getPlayer(sender.getName());
-        UUID player_uuid = player.getUniqueId();
         Map<String, Integer> playerData = PlayerDataManager.getPlayerData(plugin, player);
-
-        StringBuilder strLine = new StringBuilder();
 
         player.sendMessage("Your stats are:");
         for (String key : playerData.keySet()) {

@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.io.IOException;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -93,6 +95,32 @@ public class PlayerDataManager {
 
             return allPlayerData;
         }
+    }
+
+    public static Map<String, Integer> getAllToolData(JavaPlugin plugin, String toolName) {
+        Map<String, Integer> allToolData = new HashMap<>();
+
+        File duplicate_dataFolder = new File(plugin.getDataFolder(), "data");
+
+        if (!duplicate_dataFolder.exists() || duplicate_dataFolder.listFiles().length == 0) {
+            return allToolData;
+        } else {
+            for (File playerFile : duplicate_dataFolder.listFiles()) {
+                String player_string_uuid = FilenameUtils.removeExtension(playerFile.getName());
+                UUID player_uuid = UUID.fromString(player_string_uuid);
+                String playerName = Bukkit.getOfflinePlayer(player_uuid).getName();
+
+                YamlConfiguration config = YamlConfiguration.loadConfiguration(playerFile);
+
+                if (config.contains(toolName)) {
+                    allToolData.put(playerName, config.getInt(toolName));
+                } else {
+                    allToolData.put(playerName, 0);
+                }
+            }
+        }
+
+        return allToolData;
     }
 
     public static Integer xpToLevel(Integer experience) {
