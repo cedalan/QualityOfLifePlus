@@ -33,8 +33,8 @@ public class BlbEffectHandler {
         String toolCategory = ToolUtils.getToolCategory(itemMaterial);
         int duration = 20 * 60 * 60;
 
-        player.sendMessage("Running update player effect with itemString: " + itemString);
-        Bukkit.broadcastMessage(playerData.toString());
+        //player.sendMessage("Running update player effect with itemString: " + itemString);
+        //Bukkit.broadcastMessage(playerData.toString());
         
         if (!toolCategory.equalsIgnoreCase("Other")) {
             int itemLevel = PlayerDataManager.xpToLevel(playerData.get(toolCategory)) - 1;
