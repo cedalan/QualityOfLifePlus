@@ -40,6 +40,6 @@ public class BlbListener implements Listener {
         PlayerDataManager.savePlayerData(player, playerData, toolType);
 
         //This is for debugging
-        player.sendMessage("You've broken " + playerData.get(toolType) + " blocks with " + toolType.toLowerCase() + ".");
+        //player.sendMessage("You've broken " + playerData.get(toolType) + " blocks with " + toolType.toLowerCase() + ".");
     }  
 }
