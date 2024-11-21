@@ -109,11 +109,11 @@ public class BlbCommandHandler implements CommandExecutor {
 
             Map<String, Integer> sortedData = allToolData.entrySet()
                 .stream()
-                .sorted(Map.Entry.<String, Integer>comparingByValue())
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
-                        (e1, e2) -> e2,
+                        (e1, e2) -> e1,
                         LinkedHashMap::new
                 ));
 
