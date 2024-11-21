@@ -113,7 +113,7 @@ public class BlbCommandHandler implements CommandExecutor {
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
-                        (e1, e2) -> e1,
+                        (e1, e2) -> e2,
                         LinkedHashMap::new
                 ));
 
