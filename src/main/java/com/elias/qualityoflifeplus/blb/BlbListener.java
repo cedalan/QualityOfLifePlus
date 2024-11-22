@@ -33,13 +33,17 @@ public class BlbListener implements Listener {
         // Initialize count for the toolType if not present
         playerData.putIfAbsent(toolType, 0);
 
+        Integer previousLevel = PlayerDataManager.xpToLevel(playerData.get(toolType));
+        Integer newLevel = PlayerDataManager.xpToLevel(playerData.get(toolType) + 1);
+
+        if (previousLevel < newLevel) {
+            player.sendMessage("Your " + toolType + " skill leveled up to level " + String.valueOf(newLevel));
+        }
+
         //Update playerdata
         playerData.put(toolType, playerData.get(toolType) + 1);
 
         //Save player data
         PlayerDataManager.savePlayerData(player, playerData, toolType);
-
-        //This is for debugging
-        //player.sendMessage("You've broken " + playerData.get(toolType) + " blocks with " + toolType.toLowerCase() + ".");
     }  
 }

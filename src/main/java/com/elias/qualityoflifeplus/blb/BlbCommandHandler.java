@@ -206,7 +206,7 @@ public class BlbCommandHandler implements CommandExecutor {
                         player.sendMessage("You need to provide a number...");
                         return;
                     }
-                    Integer amount = Integer.parseInt(args[3]);
+                    Integer amount = - Integer.parseInt(args[3]);
 
                     if (playerData.get(adjustTool) == null) {
                         playerData.put(adjustTool, amount);
