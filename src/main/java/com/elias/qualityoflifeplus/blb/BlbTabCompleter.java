@@ -33,8 +33,8 @@ public class BlbTabCompleter implements TabCompleter {
             suggestions.add("Shovel");
             suggestions.add("Hoe");
         } else if (args.length == 3) {
-            suggestions.add("+");
-            suggestions.add("-");
+            suggestions.add("add");
+            suggestions.add("remove");
         }
 
         return suggestions;

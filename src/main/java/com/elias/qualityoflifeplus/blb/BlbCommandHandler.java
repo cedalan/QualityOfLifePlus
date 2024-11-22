@@ -185,7 +185,7 @@ public class BlbCommandHandler implements CommandExecutor {
             String adjustTool = Character.toUpperCase(firstLetter) + toolArg.substring(1).toLowerCase();
 
             if (ToolUtils.isValidTool(adjustTool)) {
-                if (args[2].equals("+")) {
+                if (args[2].equals("add")) {
                     try {
                         int amount = Integer.parseInt(args[3]);
                     } catch (NumberFormatException e) {
@@ -199,7 +199,7 @@ public class BlbCommandHandler implements CommandExecutor {
                     } else {
                         playerData.put(adjustTool, amount + playerData.get(adjustTool));
                     }
-                } else if (args[2].equals("-")) {
+                } else if (args[2].equals("remove")) {
                     try {
                         int amount = Integer.parseInt(args[3]);
                     } catch (NumberFormatException e) {
