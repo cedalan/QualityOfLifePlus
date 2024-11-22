@@ -16,6 +16,8 @@ import com.elias.qualityoflifeplus.QualityOfLifePlusPlugin;
 import com.elias.qualityoflifeplus.utils.PlayerDataManager;
 import com.elias.qualityoflifeplus.utils.ToolUtils;
 
+import net.md_5.bungee.api.ChatColor;
+
 public class BlbCommandHandler implements CommandExecutor {
 
     private final QualityOfLifePlusPlugin plugin;
@@ -78,8 +80,10 @@ public class BlbCommandHandler implements CommandExecutor {
          */
         StringBuilder strLine = new StringBuilder();
 
+        strLine.append(ChatColor.BOLD + "Blb commands:\n");
+
         for (String command : commands.keySet()) {
-            strLine.append("/blb " + command + " - " + commands.get(command) + "\n");
+            strLine.append(ChatColor.RESET + "/blb " + command + " - " + commands.get(command) + "\n");
         }
         sender.sendMessage(strLine.toString());
     }
