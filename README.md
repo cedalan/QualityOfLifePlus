@@ -17,7 +17,7 @@ and then
 ```
 
 ## BlockBreaking (Blb):
-As the height of the Minecraft world increases and after the introduction of Deepslate the task of leaving our mineshaft and getting up to the surface can be both difficult and time consuming. In a world devestated by fast-paced algorithms delivering mental stimulation at a never seen pace it is important that the gaming world follows. BlB introduces a level up system to blockbreaking, which gives you one point in hast each time you level up. 
+As the height of the Minecraft world increases and after the introduction of Deepslate the task of leaving our mineshaft and getting up to the surface can be both difficult and time consuming. In a world devestated by fast-paced algorithms delivering mental stimulation at a never seen pace it is important that the gaming world follows. BlB introduces a level up system to blockbreaking, which gives you one point in haste each time you level up. 
 
 ### Commands:
 
