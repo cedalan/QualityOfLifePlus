@@ -28,3 +28,12 @@ As the height of the Minecraft world increases and after the introduction of Dee
 /blb level <tool> - Shows user level for specified tool
 /blb xp <tool> <add/remove> <amount> - Adjusts player experience for given tool
 ```
+
+## Extras
+This section is for all commands that do not fit under one of the larger categories.
+
+### Commands:
+
+```
+/changenick <nickname> - Change displayed name to nickname. Alias is /nickname <nickname>
+```
