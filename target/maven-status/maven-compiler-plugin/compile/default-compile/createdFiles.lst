@@ -7,3 +7,4 @@ com/elias/qualityoflifeplus/blb/BlbEffectHandler.class
 com/elias/qualityoflifeplus/blb/BlbTabCompleter.class
 com/elias/qualityoflifeplus/blb/BlbCommandHandler.class
 com/elias/qualityoflifeplus/events/PlayerChangedItemInHandListener.class
+com/elias/qualityoflifeplus/extras/ExtrasCommandHandler.class
