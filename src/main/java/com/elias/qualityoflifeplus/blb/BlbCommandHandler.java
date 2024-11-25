@@ -3,10 +3,8 @@ package com.elias.qualityoflifeplus.blb;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,12 +19,10 @@ import net.md_5.bungee.api.ChatColor;
 public class BlbCommandHandler implements CommandExecutor {
 
     private final QualityOfLifePlusPlugin plugin;
-    private final BlbListener listener;
     private final Map<String, String> commands = new HashMap<>();
 
     public BlbCommandHandler(QualityOfLifePlusPlugin plugin, BlbListener listener) {
         this.plugin = plugin;
-        this.listener = listener;
         this.commands.put("list", "lists all commands");
         this.commands.put("leaderboard <specifier>", "shows leaderboarad for specified tool");
         this.commands.put("level <specifier>", "returns player level given specifier");

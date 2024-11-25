@@ -6,4 +6,8 @@ commands:
   blb:
     description: Base of all blb
     usage: /blb <subcommand>
+  changenick:
+    description: Change nickname
+    usage: /changenick <nickname>
+    aliases: [nickname]
 
