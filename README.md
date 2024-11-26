@@ -37,3 +37,6 @@ This section is for all commands that do not fit under one of the larger categor
 ```
 /changenick <nickname> - Change displayed name to nickname. Alias is /nickname <nickname>
 ```
+
+### Other addons:
+- Adds custom death message to broadcast player coordinates on death
