@@ -9,6 +9,7 @@ import com.elias.qualityoflifeplus.blb.BlbListener;
 import com.elias.qualityoflifeplus.blb.BlbTabCompleter;
 import com.elias.qualityoflifeplus.events.PlayerChangedItemInHandListener;
 import com.elias.qualityoflifeplus.events.PlayerLogoutListener;
+import com.elias.qualityoflifeplus.events.PlayerDeathListener;
 import com.elias.qualityoflifeplus.extras.ExtrasCommandHandler;
 import com.elias.qualityoflifeplus.utils.PlayerDataManager;
 
@@ -46,6 +47,10 @@ public class QualityOfLifePlusPlugin extends JavaPlugin {
         this.getCommand("blb").setTabCompleter(new BlbTabCompleter());
 
         //Extras section
+
+        //Register playerDeathListener
+        PlayerDeathListener playerDeathListener = new PlayerDeathListener();
+        getServer().getPluginManager().registerEvents(playerDeathListener, this);
 
         //Nickname command:
         this.getCommand("changenick").setExecutor(new ExtrasCommandHandler());
