@@ -29,6 +29,13 @@ As the height of the Minecraft world increases and after the introduction of Dee
 /blb xp <tool> <add/remove> <amount> - Adjusts player experience for given tool
 ```
 
+## Tombstones:
+Setting gamerule keepInventory to true feels kind of overkill, but despawn timers of items can be a pain in the backend if one dies far away from respawn point i. e. in the end... This plugin enables tombstones on death. All items in your inventory is placed into a single chest. If the chest fills up the rest of the items are dropped on the ground as normal. Currently the items are prioritized like this:
+
+Armour > Item in offhand > The rest of the inventory
+
+This is subject to change
+
 ## Extras
 This section is for all commands that do not fit under one of the larger categories.
 
