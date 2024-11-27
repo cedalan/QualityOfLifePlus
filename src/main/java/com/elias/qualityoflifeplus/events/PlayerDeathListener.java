@@ -7,6 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+import com.elias.qualityoflifeplus.tombstone.Tombstone;
+
 public class PlayerDeathListener implements Listener {
 
     @EventHandler
@@ -25,5 +27,15 @@ public class PlayerDeathListener implements Listener {
                             + "Z: " + String.valueOf(z);
 
         Bukkit.broadcastMessage(deathMessage);
+
+        boolean createdTombstone = Tombstone.createTrombstone(player);
+
+        if (createdTombstone) {
+            player.sendMessage("A tombstone was created for you!");
+        } else {
+            player.sendMessage("Could not create tombstone for you... sorry");
+        }
+
+        event.getDrops().clear();
     }
 }
