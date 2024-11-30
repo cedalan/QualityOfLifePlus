@@ -126,9 +126,11 @@ public class PlayerDataManager {
         // If the experience is less than 10, return level 1
         if (experience == null) {
             return 1;
-        } else {
+        } else if (experience <= 10000) {
             // Otherwise, calculate the level using the logarithm base 10 of the experience
             return (int) Math.floor(Math.log10(experience));
+        } else {
+            return (int) Math.floor(Math.sqrt(0.0016 * experience));
         }
     }
 }
