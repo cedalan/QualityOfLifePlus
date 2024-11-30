@@ -32,10 +32,9 @@ public class PlayerDeathListener implements Listener {
 
         if (createdTombstone) {
             player.sendMessage("A tombstone was created for you!");
+            event.getDrops().clear();
         } else {
             player.sendMessage("Could not create tombstone for you... sorry");
         }
-
-        event.getDrops().clear();
     }
 }
